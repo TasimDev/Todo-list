@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <!--FONT AWESOMEW-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <title>Todo-list</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="title">To-Do List</div>
+        <div class="task-input">
+            <input type="text" placeholder="Add a new task" id="text-input">
+            <button type="submit" id="btn-submit"><i class="fa-solid fa-plus"></i></button>
+        </div>
+        <div class="controls">
+            <div class="filters">
+                <span id="all" class="active">All</span>
+                <span id="pending">Pending</span>
+                <span id="completed">Completed</span>
+            </div>
+            <button id="clear-btn">Clear All</button>
+        </div>
+        <ul class="task-box">
+            <li class="task completed">
+                <div class="task-info">
+                    <span class="task-number">1</span>
+                    <span class="text">Go to the gym</span>
+                </div>
+                <div class="buttons">
+                    <button class="delete"><i class="fa-solid fa-trash"></i></button>
+                    <button class="edit"><i class="fa-solid fa-pen"></i></button>
+                </div>
+            </li>
+            <li class="task">
+                <div class="task-info">
+                    <span class="task-number">2</span>
+                    <span class="text">Go to the gym</span>
+                </div>
+                <div class="buttons">
+                    <button class="delete"><i class="fa-solid fa-trash"></i></button>
+                    <button class="edit"><i class="fa-solid fa-pen"></i></button>
+                </div>
+            </li>
+            <li class="task">
+                <div class="task-info">
+                    <span class="task-number">3</span>
+                    <span class="text">Go shopping</span>
+                </div>
+                <div class="buttons">
+                    <button class="delete"><i class="fa-solid fa-trash"></i></button>
+                    <button class="edit"><i class="fa-solid fa-pen"></i></button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="./script.js"></script>
+</body>
+
+</html>
