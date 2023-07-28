@@ -11,11 +11,11 @@ $textInput = $('#text-input');
 $clearBtn = $('#clear-btn');
 function showTasks() {
 
-    let li = 'Sorry you dont have any tasks, yet'
+    let li = ''
     if (tasks) {
         $.each(tasks, function (index, task) {
             let isCompleted = task.status == 'completed' ? "completed" : '';
-            li = ''
+
             li += ` <li class="task ${isCompleted}" data-id=${index}>
                     <div class="task-info">
                          <span class="task-number">${index + 1}</span>
