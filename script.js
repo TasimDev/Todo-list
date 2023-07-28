@@ -1,105 +1,27 @@
-
-
-// let tasks = JSON.parse(localStorage.getItem('task-box'));
-
-// let $textInput, $taskBox, $btnSubmit, $btnClear;
-// $btnSubmit = $('#btn-submit')
-// $textInput = $('#text-input');
-// $taskBox = $('.task-box');
-// $btnClear = $('#clear-btn');
-
-// const showTask = () => {
-
-//     let li = '';
-//     if (tasks) {
-//         tasks.forEach((task, id) => {
-
-//             li += `<li class="task"">
-//                         <div class="task-info" onclick="updateStatus(this)">
-//                             <span class="task-number">${id + 1}</span>
-//                             <span class="text">${task}</span>
-//                         </div>
-//                         <div class="buttons">
-//                              <button class="delete-btn" onclick="deleteItem(${id})"><i class="fa-solid fa-trash"></i></button>
-//                              <button class="edit-btn"   onclick="editItem(${id},${task})"><i class="fa-solid fa-pen"></i></button>
-//                         </div>
-//                         </li>`;
-//         })
-
-//     }
-//     return $taskBox.html(li);
-
-// }
-
-// showTask();
-
-
-
-// const createListItem = () => {
-//     let userTask = $textInput.val();
-//     if (userTask) {
-//         if (!tasks) {
-//             tasks = []
-//         }
-//         $textInput.val('');
-
-//         tasks.push(userTask);
-//         localStorage.setItem('task-box', JSON.stringify(tasks));
-//     }
-//     showTask();
-// }
-
-// const updateStatus = (selectedElemet) => {
-//     let task = selectedElemet.parentElement;
-//     if (!task.classList.contains('completed')) {
-//         task.classList.add('completed');
-//     } else {
-//         task.classList.remove('completed');
-//     }
-// }
-
-// const deleteItem = (id) => {
-//     tasks.splice(id, 1);
-//     localStorage.setItem('task-box', JSON.stringify(tasks));
-//     showTask();
-// }
-// const editItem = (id, text) => {
-
-// }
-// $btnSubmit.on('click', () => {
-//     createListItem();
-// })
-
-// $btnClear.on('click', () => {
-//     tasks.splice(0, tasks.length);
-//     localStorage.setItem('task-box', JSON.stringify(tasks));
-//     showTask();
-// })
-
-
-
-
 //Array with Tasks getting from the Local storage
 
 let tasks = JSON.parse(localStorage.getItem('task-box'));
 
+
 //Variables
-let $taskBox, $btnSubmit, $textInput;
+let $taskBox, $btnSubmit, $textInput, $task, $clearBtn;
 $taskBox = $('.task-box');
 $btnSubmit = $('#btn-submit');
 $textInput = $('#text-input');
-
+$clearBtn = $('#clear-btn');
 function showTasks() {
+
     let li = ''
     $.each(tasks, function (index, task) {
-        li += ` <li class="task">
+        let isCompleted = task.status == 'completed' ? "completed" : '';
+        li += ` <li class="task ${isCompleted}" data-id=${index}>
                     <div class="task-info">
-                         <span class="task-number">${task.id}</span>
+                         <span class="task-number">${index + 1}</span>
                          <span class="text">${task.text}</span>
                     </div>
                     <div class="buttons">
-                        <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
-                        <button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+                        <button class="delete-btn" data-id="${index}"><i class="fa-solid fa-trash"></i></button>
+                        <button class="edit-btn" data-id="${index}" data-task="${task.text}"><i class="fa-solid fa-pen"></i></button>
                     </div>
                  </li>`
     })
@@ -107,18 +29,69 @@ function showTasks() {
 }
 
 showTasks();
+//Deleteing Task Item
+$taskBox.on('click', '.delete-btn', function () {
+    let selectedId = $(this).attr('data-id');
+    //removing selected task from array tasks
+    tasks.splice(selectedId, 1);
+    localStorage.setItem("task-box", JSON.stringify(tasks));
+    showTasks();
+})
+
+//Editing Task Item
+let editId;
+let isEditedTask = false;
+
+$taskBox.on('click', '.edit-btn', function () {
+    let selectedId = $(this).attr('data-id');
+    let selectedTaskText = $(this).attr('data-task');
+    editId = selectedId;
+    isEditedTask = true;
+    $textInput.val(selectedTaskText);
+})
+//Deleting all elements
+$clearBtn.on('click', function () {
+    tasks.splice(0, tasks.length);
+    localStorage.setItem("task-box", JSON.stringify(tasks));
+    showTasks();
+})
 function createTaskItem() {
     let userTask = $textInput.val();
     if (userTask) {
-        if (!tasks) {
-            tasks = []
+        if (!isEditedTask) { // if is Editing Task isn't true
+            if (!tasks) {
+                tasks = [] //id tasks isn't exist, pass an empty array to tasks
+            }
+            let taskInfo = { text: userTask, status: "pending" };
+            tasks.push(taskInfo); // adding new task to tasks
+        } else {
+            isEditedTask = false;
+            tasks[editId].text = userTask;
         }
+
         $textInput.val('');
-        let taskInfo = { id: tasks.length + 1, text: userTask, status: "pending" };
-        tasks.push(taskInfo);
         localStorage.setItem("task-box", JSON.stringify(tasks));
+        showTasks();
     }
-    showTasks();
 }
 
+//Creating Task Item
 $btnSubmit.on('click', function () { createTaskItem() })
+
+
+//Updating status in tthe Tasks
+$taskBox.on('click', 'li', function () {
+    let selectedTask = $(this);
+    let selectedId = $(this).attr('data-id');
+    if (!selectedTask.hasClass('completed')) {
+        selectedTask.addClass('completed')
+        //updating tha status of slecterd task to cpmpleted
+        tasks[selectedId].status = 'completed';
+
+    } else {
+        selectedTask.removeClass('completed')
+        //updating tha status of slecterd task to pending
+        tasks[selectedId].status = 'pending';
+    }
+    localStorage.setItem("task-box", JSON.stringify(tasks));
+})

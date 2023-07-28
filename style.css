@@ -72,18 +72,11 @@ body {
 
 .wrapper .controls {
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     align-items: center;
     margin-bottom: 18px;
 }
 
-.wrapper .controls .filters {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    color: #4e4e4e;
-    cursor: pointer;
-}
 
 .wrapper .controls button {
     background: none;
@@ -100,9 +93,7 @@ body {
     border-bottom: 1px solid rgb(199, 6, 6);
 }
 
-.wrapper .controls .filters span.active {
-    color: #31b179;
-}
+
 
 .wrapper .task-box {
     display: flex;
