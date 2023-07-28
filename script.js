@@ -9,6 +9,8 @@ $taskBox = $('.task-box');
 $btnSubmit = $('#btn-submit');
 $textInput = $('#text-input');
 $clearBtn = $('#clear-btn');
+
+
 function showTasks() {
 
     let li = ''
@@ -57,6 +59,7 @@ $clearBtn.on('click', function () {
     localStorage.setItem("task-box", JSON.stringify(tasks));
     showTasks();
 })
+
 
 function createTaskItem() {
     let userTask = $textInput.val();
