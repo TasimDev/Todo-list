@@ -72,11 +72,29 @@ body {
 
 .wrapper .controls {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 18px;
 }
 
+.wrapper .controls .filters {
+    display: flex;
+    gap: 13px;
+}
+
+.wrapper .controls .filters span {
+    color: #535353;
+    cursor: pointer;
+}
+
+.wrapper .controls .filters span.active {
+    color: #3aaf7c;
+    border-bottom: 1px solid #3aaf7c;
+}
+
+.wrapper .controls .filters span:hover {
+    color: #3aaf7c;
+}
 
 .wrapper .controls button {
     background: none;
@@ -132,6 +150,16 @@ body {
 .wrapper .task-box .task .task-info {
     display: flex;
     gap: 16px;
+}
+
+.wrapper .task-box .task .task-info.completed .task-number {
+    background: #3aaf7c;
+    border: #3aaf7c;
+}
+
+.wrapper .task-box .task .task-info.completed .text {
+    text-decoration: line-through;
+    color: #c2c2c2;
 }
 
 .wrapper .task-box .task .task-info .task-number {

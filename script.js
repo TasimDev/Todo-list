@@ -1,23 +1,27 @@
+
+
 //Array with Tasks getting from the Local storage
 
 let tasks = JSON.parse(localStorage.getItem('task-box'));
 
 
 //Variables
-let $taskBox, $btnSubmit, $textInput, $task, $clearBtn;
+let $taskBox, $btnSubmit, $textInput, $task, $clearBtn, $filters;
 $taskBox = $('.task-box');
 $btnSubmit = $('#btn-submit');
 $textInput = $('#text-input');
 $clearBtn = $('#clear-btn');
+$filters = $('.filters');
 
-
-function showTasks() {
+function showTasks(filter) {
 
     let li = ''
     if (tasks) {
         $.each(tasks, function (index, task) {
-            li += ` <li class="task" data-id=${index}>
-                    <div class="task-info">
+            let isCompleted = task.status == 'completed' ? 'completed' : '';
+            if (filter == task.status || filter == 'all') {
+                li += ` <li class="task" data-id=${index}>
+                    <div class="task-info ${isCompleted}" data-id="${index}">
                          <span class="task-number">${index + 1}</span>
                          <span class="text">${task.text}</span>
                     </div>
@@ -26,13 +30,15 @@ function showTasks() {
                         <button class="edit-btn" data-id="${index}" data-task="${task.text}"><i class="fa-solid fa-pen"></i></button>
                     </div>
                  </li>`
+            }
         })
     }
     $taskBox.html(li);
 
 }
 
-showTasks();
+showTasks("all");
+
 //Deleteing Task Item
 $taskBox.on('click', '.delete-btn', function () {
     let selectedId = $(this).attr('data-id');
@@ -60,7 +66,28 @@ $clearBtn.on('click', function () {
     showTasks();
 })
 
+//Change the status
+$taskBox.on('click', '.task-info', function () {
+    let selectedElement = $(this);
+    let selectedElementId = selectedElement.attr('data-id')
+    if (!selectedElement.hasClass('completed')) {
+        selectedElement.addClass('completed');
+        tasks[selectedElementId].status = 'completed';
+    } else {
+        selectedElement.removeClass('completed');
+        tasks[selectedElementId].status = 'pending'
+    }
+    localStorage.setItem("task-box", JSON.stringify(tasks));
+})
+//Filter elements 
+$filters.on('click', 'span', function () {
+    let selectedElement = $(this);
+    let selectedElementId = selectedElement.attr('id');
+    selectedElement.parent().find('span.active').removeClass('active');
+    selectedElement.addClass('active');
+    showTasks(selectedElementId);
 
+})
 function createTaskItem() {
     let userTask = $textInput.val();
     if (userTask) {
@@ -68,7 +95,7 @@ function createTaskItem() {
             if (!tasks) {
                 tasks = [] //id tasks isn't exist, pass an empty array to tasks
             }
-            let taskInfo = { text: userTask };
+            let taskInfo = { text: userTask, status: 'pending' };
             tasks.push(taskInfo); // adding new task to tasks
         } else {
             isEditedTask = false;
@@ -83,4 +110,3 @@ function createTaskItem() {
 
 //Creating Task Item
 $btnSubmit.on('click', function () { createTaskItem() })
-
