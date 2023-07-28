@@ -37,7 +37,7 @@ function showTasks(filter) {
 
 }
 
-showTasks("all");
+showTasks('all');
 
 //Deleteing Task Item
 $taskBox.on('click', '.delete-btn', function () {
