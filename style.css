@@ -178,12 +178,12 @@ body {
     color: #111111;
 }
 
-.wrapper .task-box .task .buttons .delete:hover {
+.wrapper .task-box .task .buttons .delete-btn:hover {
     background: rgb(253, 53, 53);
     color: #fff;
 }
 
-.wrapper .task-box .task .buttons .edit:hover {
+.wrapper .task-box .task .buttons .edit-btn:hover {
     background: rgb(54, 54, 228);
     color: #fff;
 }
