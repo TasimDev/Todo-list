@@ -13,31 +13,7 @@ $textInput = $('#text-input');
 $clearBtn = $('#clear-btn');
 $filters = $('.filters');
 
-function showTasks(filter) {
 
-    let li = ''
-    if (tasks) {
-        $.each(tasks, function (index, task) {
-            let isCompleted = task.status == 'completed' ? 'completed' : '';
-            if (filter == task.status || filter == 'all') {
-                li += ` <li class="task" data-id=${index}>
-                    <div class="task-info ${isCompleted}" data-id="${index}">
-                         <span class="task-number">${index + 1}</span>
-                         <span class="text">${task.text}</span>
-                    </div>
-                    <div class="buttons">
-                        <button class="delete-btn" data-id="${index}"><i class="fa-solid fa-trash"></i></button>
-                        <button class="edit-btn" data-id="${index}" data-task="${task.text}"><i class="fa-solid fa-pen"></i></button>
-                    </div>
-                 </li>`
-            }
-        })
-    }
-    $taskBox.html(li);
-
-}
-
-showTasks('all');
 
 //Deleteing Task Item
 $taskBox.on('click', '.delete-btn', function () {
@@ -63,7 +39,7 @@ $taskBox.on('click', '.edit-btn', function () {
 $clearBtn.on('click', function () {
     tasks.splice(0, tasks.length);
     localStorage.setItem("task-box", JSON.stringify(tasks));
-    showTasks();
+    showTasks('all');
 })
 
 //Change the status
@@ -88,6 +64,31 @@ $filters.on('click', 'span', function () {
     showTasks(selectedElementId);
 
 })
+function showTasks(filter) {
+
+    let li = ''
+    if (tasks) {
+        $.each(tasks, function (index, task) {
+            let isCompleted = task.status == 'completed' ? 'completed' : '';
+            if (filter == task.status || filter == 'all') {
+                li += ` <li class="task" data-id=${index}>
+                    <div class="task-info ${isCompleted}" data-id="${index}">
+                         <span class="task-number">${index + 1}</span>
+                         <span class="text">${task.text}</span>
+                    </div>
+                    <div class="buttons">
+                        <button class="delete-btn" data-id="${index}"><i class="fa-solid fa-trash"></i></button>
+                        <button class="edit-btn" data-id="${index}" data-task="${task.text}"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                 </li>`
+            }
+        })
+    }
+    $taskBox.html(li);
+
+}
+
+showTasks('all');
 function createTaskItem() {
     let userTask = $textInput.val();
     if (userTask) {
@@ -104,7 +105,7 @@ function createTaskItem() {
 
         $textInput.val('');
         localStorage.setItem("task-box", JSON.stringify(tasks));
-        showTasks();
+        showTasks("all");
     }
 }
 
