@@ -128,16 +128,6 @@ body {
 
 }
 
-.wrapper .task-box .task.completed .task-info .task-number {
-    background: #52E3A4;
-    border: #31b179;
-
-}
-
-.wrapper .task-box .task.completed .task-info .text {
-    text-decoration: line-through;
-    color: #c1c1c1;
-}
 
 .wrapper .task-box .task .task-info {
     display: flex;
