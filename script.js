@@ -21,7 +21,7 @@ $taskBox.on('click', '.delete-btn', function () {
     //removing selected task from array tasks
     tasks.splice(selectedId, 1);
     localStorage.setItem("task-box", JSON.stringify(tasks));
-    showTasks();
+    showTasks('all');
 })
 
 //Editing Task Item
