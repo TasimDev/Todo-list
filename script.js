@@ -14,9 +14,7 @@ function showTasks() {
     let li = ''
     if (tasks) {
         $.each(tasks, function (index, task) {
-            let isCompleted = task.status == 'completed' ? "completed" : '';
-
-            li += ` <li class="task ${isCompleted}" data-id=${index}>
+            li += ` <li class="task" data-id=${index}>
                     <div class="task-info">
                          <span class="task-number">${index + 1}</span>
                          <span class="text">${task.text}</span>
@@ -67,7 +65,7 @@ function createTaskItem() {
             if (!tasks) {
                 tasks = [] //id tasks isn't exist, pass an empty array to tasks
             }
-            let taskInfo = { text: userTask, status: "pending" };
+            let taskInfo = { text: userTask };
             tasks.push(taskInfo); // adding new task to tasks
         } else {
             isEditedTask = false;
@@ -83,20 +81,3 @@ function createTaskItem() {
 //Creating Task Item
 $btnSubmit.on('click', function () { createTaskItem() })
 
-
-//Updating status in tthe Tasks
-$taskBox.on('click', 'li', function () {
-    let selectedTask = $(this);
-    let selectedId = $(this).attr('data-id');
-    if (!selectedTask.hasClass('completed')) {
-        selectedTask.addClass('completed')
-        //updating tha status of slecterd task to cpmpleted
-        tasks[selectedId].status = 'completed';
-
-    } else {
-        selectedTask.removeClass('completed')
-        //updating tha status of slecterd task to pending
-        tasks[selectedId].status = 'pending';
-    }
-    localStorage.setItem("task-box", JSON.stringify(tasks));
-})
