@@ -11,10 +11,12 @@ $textInput = $('#text-input');
 $clearBtn = $('#clear-btn');
 function showTasks() {
 
-    let li = ''
-    $.each(tasks, function (index, task) {
-        let isCompleted = task.status == 'completed' ? "completed" : '';
-        li += ` <li class="task ${isCompleted}" data-id=${index}>
+    let li = 'Sorry you dont have any tasks, yet'
+    if (tasks) {
+        $.each(tasks, function (index, task) {
+            let isCompleted = task.status == 'completed' ? "completed" : '';
+            li = ''
+            li += ` <li class="task ${isCompleted}" data-id=${index}>
                     <div class="task-info">
                          <span class="task-number">${index + 1}</span>
                          <span class="text">${task.text}</span>
@@ -24,8 +26,10 @@ function showTasks() {
                         <button class="edit-btn" data-id="${index}" data-task="${task.text}"><i class="fa-solid fa-pen"></i></button>
                     </div>
                  </li>`
-    })
-    return $taskBox.html(li);
+        })
+    }
+    $taskBox.html(li);
+
 }
 
 showTasks();
@@ -55,6 +59,7 @@ $clearBtn.on('click', function () {
     localStorage.setItem("task-box", JSON.stringify(tasks));
     showTasks();
 })
+
 function createTaskItem() {
     let userTask = $textInput.val();
     if (userTask) {
